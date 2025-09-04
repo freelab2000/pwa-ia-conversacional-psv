@@ -1,5 +1,5 @@
 
-import { VERSION, QUICK_PROMPTS, loadSessionMemory, saveSessionMemory, loadHistory, saveHistory, detectIntent, fallbackReply, loadPSVs, POLICY, minutesToHHMM } from './nlp.js';
+import { VERSION, QUICK_PROMPTS, loadSessionMemory, saveSessionMemory, loadHistory, saveHistory, detectIntent, fallbackReply, loadPSVs, POLICY, minutesToHHMM } from './nlp.js.js';
 
 const $ = sel => document.querySelector(sel);
 const chatLog = $("#chatLog");

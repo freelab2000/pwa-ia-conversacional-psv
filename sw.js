@@ -1,5 +1,5 @@
 
-const CACHE_NAME = "psv-conv-v2.7.5";
+const CACHE_NAME = "psv-conv-v2.7.6";
 const ASSETS = [
   "./",
   "./index.html",
