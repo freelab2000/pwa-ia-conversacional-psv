@@ -1,7 +1,7 @@
 {
   "name": "IA Conversacional \u2014 PSV/PS/PD",
   "short_name": "IA PSV",
-  "start_url": "index.html",
+  "start_url": "index.html?v=273",
   "display": "standalone",
   "background_color": "#0b1220",
   "theme_color": "#0a2540",
