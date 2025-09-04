@@ -7,7 +7,7 @@
  3) Memoria de sesión (en sessionStorage) para encadenar preguntas
 */
 
-export const VERSION = "v2.6.1-conv";
+export const VERSION = "v2.7.0-conv"
 
 // Prompts preconfigurados (Atajos)
 export const QUICK_PROMPTS = [
@@ -92,6 +92,30 @@ export function computePDMin(psMin, dlon){
     const extra = POLICY.LON_BASE_EXTRA + Math.floor((dlon - POLICY.LON_TRIGGER_DEG)/POLICY.LON_STEP_DEG) * POLICY.LON_STEP_MIN;
     pd += extra;
   }
+// --- Base mínima de longitudes por IATA (°) para ΔLON auto ---
+// Nota: valores aproximados, suficientes para cálculo de diferencia longitudinal para PD.
+export const AIRPORT_LON = {
+  SCL: -70.793, LIM: -77.114, MIA: -80.290, UIO: -78.357, BOG: -74.146, MDE: -75.591,
+  ORD: -87.907, YVR: -123.184, YEG: -113.580, YYC: -114.019, YYT: -52.751,
+  YQB: -71.393, YUL: -73.740, YOW: -75.669, YYZ: -79.624, YHM: -79.934,
+  PTY: -79.387, SJO: -84.208, GUA: -90.527,
+  EZE: -58.539, MVD: -56.030, VCP: -47.137, CWB: -49.176, GIG: -43.250, POA: -51.171,
+  SCL: -70.793, SCL2: -70.793 // sentinel (avoid trailing)
+};
+
+export function inferDeltaLonFromRouteOrMem(text, mem){
+  // Busca ORIG–DEST en el texto, si no, usa memoria (lastDep/lastArr)
+  const m = text.match(/\b([A-Z]{3})\s*[–-]\s*([A-Z]{3})\b/);
+  const a = (m? m[1] : (mem.lastDep||"")).toUpperCase();
+  const b = (m? m[2] : (mem.lastArr||"")).toUpperCase();
+  if(!a || !b) return { dlon:null, from:`no-route` };
+  const la = AIRPORT_LON[a], lb = AIRPORT_LON[b];
+  if(typeof la !== "number" || typeof lb !== "number") return { dlon:null, from:`unknown ${a}→${b}` };
+  let diff = Math.abs(la - lb);
+  if(diff > 180) diff = 360 - diff; // por si cruza 180°
+  return { dlon: Math.round(diff), from:`${a}→${b}` };
+}
+
   return pd;
 }
 
@@ -196,7 +220,8 @@ const INTENTS = [
         const hSolo = text.match(/(\d{1,2})\s*h/i);
         if(hSolo) psMin = (+hSolo[1])*60;
       }
-      const dlon = mDL ? +mDL[1] : 0;
+      let dlon = mDL ? +mDL[1] : null;
+      if(dlon===null){ const mem = loadSessionMemory(); const inf = inferDeltaLonFromRouteOrMem(text, mem); dlon = (inf.dlon==null? 0 : inf.dlon); }
       // Regla base (ejemplo): PD base = max(10h, PS + 2h)
       let pd = Math.max(600, psMin + 120);
       // Ajuste por ΔLON (mantener la "regla oficial" definida por el usuario en proyectos previos):
@@ -261,7 +286,8 @@ INTENTS.unshift({
     if(!mPS || !mPD) return null;
     const psMin = parseHHMMorHours(mPS[1]);
     const pdPlan = parseHHMMorHours(mPD[1]);
-    const dlon = mDL? +mDL[1] : 0;
+    let dlon = mDL? +mDL[1] : null;
+    if(dlon===null){ const mem = loadSessionMemory(); const inf = inferDeltaLonFromRouteOrMem(text, mem); dlon = (inf.dlon==null? 0 : inf.dlon); }
     if(psMin==null || pdPlan==null) return null;
     const pdMin = computePDMin(psMin, dlon);
     const diff = pdPlan - pdMin;
@@ -395,7 +421,7 @@ INTENTS.unshift({
     const consec = countConsecutivas(list);
     const warn = consec.runActual > 2 ? " <span class='inline-warn'>(¡Excede 2 consecutivas!)</span>" : "";
     return {
-      reply: `PSV agregado: ${entry.dep}–${entry.arr} ${entry.route? " "+entry.route:""} ⇒ **${entry.tag}**, ZR=${minutesToHHMM(entry.zr)}. `+
+      reply: `PSV agregado: ${entry.dep}–${entry.arr} ${entry.route? " "+entry.route:""} ⇒ **${entry.tag}**, Zona Roja=${minutesToHHMM(entry.zr)}. `+
              `Consecutivas actuales: **${consec.runActual}**.${warn}`,
       context: { lastDep: r.dep, lastArr: r.arr }
     };
@@ -410,7 +436,7 @@ INTENTS.push({
     const list = loadPSVs();
     if(list.length===0) return { reply:"No hay PSVs registrados aún. Usa: 'Agrega PSV 22:10–06:40 SCL–MIA'.", context:{} };
     const consec = countConsecutivas(list);
-    const lines = list.map((p,i)=>`${i+1}. ${p.dep}–${p.arr}${p.route? " "+p.route:""} · ${p.tag} · ZR ${minutesToHHMM(p.zr)}`);
+    const lines = list.map((p,i)=>`${i+1}. ${p.dep}–${p.arr}${p.route? " "+p.route:""} · ${p.tag} · Zona Roja ${minutesToHHMM(p.zr)}`);
     return { reply: `PSVs (${list.length}):\n`+lines.join("\n")+`\n\nConsecutivas actuales: **${consec.runActual}** (máx histórico ${consec.maxRun}).`, context:{} };
   }
 });

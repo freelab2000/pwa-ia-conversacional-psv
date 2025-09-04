@@ -150,7 +150,7 @@ function renderPSVList(){
     const row = document.createElement("div");
     row.className = "psv-item";
     const left = document.createElement("div");
-    left.innerHTML = `<strong>${p.dep}–${p.arr}</strong> ${p.route? "· "+p.route:""}<div class='meta'>ZR ${p.zr} min</div>`;
+    left.innerHTML = `<strong>${p.dep}–${p.arr}</strong> ${p.route? "· "+p.route:""}<div class='meta'>Zona Roja ${p.zr} min</div>`;
     const right = document.createElement("div");
     right.innerHTML = `<span class='tag'>${p.tag}</span>`;
     row.appendChild(left); row.appendChild(right);
