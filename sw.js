@@ -1,11 +1,11 @@
 
-const CACHE_NAME = "psv-conv-v2.7.3";
+const CACHE_NAME = "psv-conv-v2.7.4";
 const ASSETS = [
   "./",
   "./index.html",
   "./style.css",
-  "./app.v273.js",
-  "./nlp.v273.js",
+  "./app.v274.js",
+  "./nlp.v274.js",
   "./manifest.json",
   "./icon-192x192.png",
   "./icon-512x512.png"
