@@ -1,0 +1,91 @@
+
+:root{
+  --bg:#0b1220;
+  --panel:#111a2b;
+  --text:#e6eefc;
+  --muted:#93a3b8;
+  --accent:#4da3ff;
+  --accent-2:#22c55e;
+  --outline:#23314d;
+  --chip:#0f1b30;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+.app-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 16px;border-bottom:1px solid var(--outline);
+  position:sticky;top:0;background:linear-gradient(180deg,#0b1220 0%, #0b1220ee 100%);backdrop-filter:saturate(1.2) blur(6px); z-index:2;
+}
+.title{display:flex;align-items:center;gap:10px}
+h1{font-size:18px;margin:0}
+.version-badge{font-size:12px;color:var(--muted);border:1px solid var(--outline);padding:2px 8px;border-radius:999px}
+.header-actions{display:flex;gap:8px}
+.container{
+  display:grid;gap:16px;padding:16px;grid-template-columns: 1fr 2fr 1fr;align-items:start;
+}
+.panel{
+  background:var(--panel);border:1px solid var(--outline);border-radius:16px;padding:12px;
+  box-shadow:0 6px 24px rgba(0,0,0,.35);
+}
+.panel h2{font-size:14px;margin:0 0 8px;color:var(--muted)}
+.panel-prompts{min-height:120px}
+.prompt-grid{display:grid;grid-template-columns:repeat(2, minmax(0,1fr));gap:8px}
+.chip{
+  background:var(--chip);border:1px solid var(--outline);padding:8px 10px;border-radius:12px;
+  cursor:pointer;transition:transform .06s ease; font-size:13px; line-height:1.2;
+}
+.chip:hover{transform:translateY(-1px);border-color:#2b3b5c}
+.panel-chat{grid-column:2 / 3;min-height:60vh;display:flex;flex-direction:column}
+.chat-log{flex:1;overflow:auto;padding:10px;display:flex;flex-direction:column;gap:10px}
+.msg{display:flex;gap:10px;align-items:flex-start}
+.msg .bubble{
+  padding:10px 12px;border-radius:14px;max-width:90%;
+  border:1px solid var(--outline);
+}
+.msg.user .bubble{background:#0e1a30}
+.msg.bot .bubble{background:#0f1f38}
+.role{font-size:11px;color:var(--muted)}
+.composer{display:flex;gap:8px;align-items:flex-end;border-top:1px dashed var(--outline);padding:10px;margin-top:8px}
+textarea{
+  flex:1;background:#0e1a30;color:var(--text);border:1px solid var(--outline);
+  border-radius:12px;padding:10px;resize:vertical;min-height:44px;outline:none;
+}
+textarea:focus{border-color:var(--accent)}
+.primary, .secondary, .ghost{
+  border:1px solid var(--outline);padding:10px 14px;border-radius:12px;cursor:pointer;
+  background:#0e1b32;color:var(--text);font-weight:600;
+}
+.primary{background:linear-gradient(180deg,#1a64ff,#1547b8);border-color:#1240a6}
+.primary:active{transform:translateY(1px)}
+.secondary{background:#0e223f}
+.ghost{background:transparent}
+.panel-memory .memory-kv{display:grid;grid-template-columns:150px 1fr;gap:8px;align-items:center;margin-bottom:8px}
+.panel-memory input{
+  background:#0e1a30;color:var(--text);border:1px solid var(--outline);border-radius:10px;padding:8px 10px;
+}
+.footer{padding:12px;color:var(--muted);text-align:center;border-top:1px solid var(--outline);}
+@media(max-width:1024px){
+  .container{grid-template-columns:1fr; }
+  .panel-chat{grid-column:auto}
+}
+.suggest-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.suggest{font-size:12px;border:1px dashed var(--outline);padding:6px 8px;border-radius:10px;background:#0b1a33;cursor:pointer}
+.kbd{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,'Liberation Mono','Courier New',monospace;
+  background:#0b1a33;border:1px solid var(--outline);padding:0 6px;border-radius:6px;font-size:11px;color:var(--muted);
+}
+
+.panel-psvs .psv-list{display:flex;flex-direction:column;gap:6px}
+.psv-item{display:flex;gap:8px;align-items:center;justify-content:space-between;background:#0e1a30;border:1px solid var(--outline);border-radius:10px;padding:8px}
+.psv-item .meta{font-size:12px;color:var(--muted)}
+.psv-item .tag{font-size:11px;border:1px solid var(--outline);padding:2px 8px;border-radius:999px;background:#0b1a33}
+.psv-list.empty{color:var(--muted);font-size:12px}
+.inline-warn{font-size:12px;color:#ffcc66}
+
+.policy{font-size:12px;color:var(--muted);line-height:1.4}
+.policy code{background:#0b1a33;border:1px solid var(--outline);padding:2px 6px;border-radius:6px}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PWA IA Conversacional — PSV/PS/PD</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0a2540" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="apple-touch-icon" href="icon-192x192.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="title">
+      <h1>IA Conversacional — PSV/PS/PD</h1>
+      <span class="version-badge" title="Versión de la app">v2.6.0-conv</span>
+    </div>
+    <div class="header-actions">
+      <button id="btnClear" class="ghost" title="Limpiar conversación">Limpiar</button>
+      <button id="btnExport" class="ghost" title="Exportar conversación">Exportar</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="panel panel-prompts">
+      <h2>Atajos</h2>
+      <div id="quickPrompts" class="prompt-grid"></div>
+    </section>
+
+    <section class="panel panel-chat">
+      <div id="chatLog" class="chat-log" aria-live="polite" aria-label="Conversación"></div>
+
+      <div class="composer">
+        <textarea id="userInput" rows="2" placeholder="Escribe tu consulta… (ej.: valida PSV 22:10–06:40 SCL–MIA, ¿es noche completa?)"></textarea>
+        <div class="composer-actions">
+          <button id="btnSuggest" class="secondary" title="Sugerencias">Sugerir</button>
+          <button id="btnSend" class="primary">Enviar</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel panel-psvs"><h2>PSV de la sesión</h2><div id="psvList" class="psv-list empty">Sin registros aún.</div></section>
+
+  <section class="panel panel-policy"><h2>Política (editable en código)</h2><div id="policyBox" class="policy"></div></section>
+
+  <aside class="panel panel-memory">
+      <h2>Memoria de sesión</h2>
+      <div class="memory-kv">
+        <label>Base horaria (LT):</label>
+        <input id="memBaseLT" type="text" placeholder="Ej.: America/Santiago" />
+      </div>
+      <div class="memory-kv">
+        <label>Último aeropuerto origen:</label>
+        <input id="memLastDep" type="text" placeholder="Ej.: SCL" />
+      </div>
+      <div class="memory-kv">
+        <label>Último aeropuerto destino:</label>
+        <input id="memLastArr" type="text" placeholder="Ej.: MIA" />
+      </div>
+      <button id="btnSaveMem" class="ghost">Guardar memoria</button>
+    </aside>
+  </main>
+
+  <footer class="footer">
+    <p>⚠️ Uso referencial. Verifique normativa vigente antes de operar. | © 2025</p>
+  </footer>
+
+  <script defer src="nlp.js"></script>
+  <script defer src="app.js"></script>
+</body>
+</html>

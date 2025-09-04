@@ -1,0 +1,21 @@
+{
+  "name": "IA Conversacional \u2014 PSV/PS/PD",
+  "short_name": "IA PSV",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#0b1220",
+  "theme_color": "#0a2540",
+  "description": "PWA offline con IA conversacional para validaciones PSV/PS/PD (zona roja, media noche, descanso).",
+  "icons": [
+    {
+      "src": "icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
