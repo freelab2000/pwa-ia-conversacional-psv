@@ -7,7 +7,7 @@
  3) Memoria de sesión (en sessionStorage) para encadenar preguntas
 */
 
-export const VERSION = "v2.6.0-conv";
+export const VERSION = "v2.6.1-conv";
 
 // Prompts preconfigurados (Atajos)
 export const QUICK_PROMPTS = [
